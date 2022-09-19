@@ -19,11 +19,80 @@ getgenv().theme = {
     ["text"] = Color3.fromRGB(255, 255, 255)
 }
 
+--// for players using autexc
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 if not game:GetService("CoreGui"):FindFirstChild("ExperienceChat") then
     return print("PRO-CHAT not loaded because ExperienceChat was not found.")
 end
+
+--// awesome intro i made
+local function intro(text)
+    local cc = Instance.new("ColorCorrectionEffect")
+    local intro = Instance.new("Sound")
+    
+    local introroot = Instance.new("ScreenGui")
+    local introtext = Instance.new("TextLabel")
+    
+    cc.Parent = game:GetService("Lighting")
+    cc.TintColor = Color3.fromRGB(255, 255, 255)
+    cc.Name = "cc"
+    
+    intro.Parent = game:GetService("Workspace")
+    intro.SoundId = "rbxassetid://466671287"
+    intro.Volume = 8
+    intro.Name = "Intro"
+    
+    introroot.Parent = game:GetService("CoreGui")
+    introroot.Name = "IntroRoot"
+    
+    introtext.Parent = introroot
+    introtext.Name = "IntroText"
+    introtext.BackgroundTransparency = 1.000
+    introtext.Position = UDim2.new(0.5, -237,0.5, -62)
+    introtext.Size = UDim2.new(0, 475, 0, 125)
+    introtext.Font = Enum.Font.RobotoMono
+    introtext.TextColor3 = Color3.fromRGB(93, 104, 255)
+    introtext.TextWrapped = true
+    introtext.RichText = true
+    introtext.Text = text
+    
+    introtext.TextStrokeTransparency = 1
+    introtext.TextTransparency = 1
+
+
+    wait(1)
+
+    spawn(function()
+        intro:Play()
+        game:GetService("TweenService"):Create(game:GetService("Workspace").Camera, TweenInfo.new(4.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {FieldOfView=game:GetService("Workspace").Camera.FieldOfView + 30}):Play()
+        game:GetService("TweenService"):Create(game:GetService("Lighting").cc, TweenInfo.new(4.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Saturation=game:GetService("Lighting").cc.Saturation - 3}):Play()
+        game:GetService("TweenService"):Create(game:GetService("Lighting").cc, TweenInfo.new(4.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TintColor=Color3.fromRGB(47, 68, 255)}):Play()
+        game:GetService("TweenService"):Create(introtext, TweenInfo.new(4.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency=0}):Play()
+        game:GetService("TweenService"):Create(introtext, TweenInfo.new(4.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextStrokeTransparency=0}):Play()
+        wait(4.3)
+        game:GetService("TweenService"):Create(game:GetService("Workspace").Camera, TweenInfo.new(0.15, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {FieldOfView=game:GetService("Workspace").Camera.FieldOfView - 30}):Play()
+        game:GetService("TweenService"):Create(game:GetService("Lighting"):WaitForChild("cc"), TweenInfo.new(0.15, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Saturation=game:GetService("Lighting").cc.Saturation + 3}):Play()
+        game:GetService("TweenService"):Create(game:GetService("Lighting"):WaitForChild("cc"), TweenInfo.new(0.15, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TintColor=Color3.fromRGB(255, 255, 255)}):Play()
+        game:GetService("TweenService"):Create(introtext, TweenInfo.new(0.15, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency=1}):Play()
+        game:GetService("TweenService"):Create(introtext, TweenInfo.new(0.15, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextStrokeTransparency=1}):Play()
+        wait(0.5)
+        cc:Destroy()
+        intro:Destroy()
+        introroot:Destroy()
+    end)
+end
+
+if not game:GetService("CoreGui"):FindFirstChild("prochat") then
+    intro('<font size="64">prochat</font>\n<font size="16">your defualt config is located at:\nworkspace/prochat/defualt_proconfig.lua</font>')
+else
+    intro('<font size="46">youre already loaded</font>\n<font size="16">please click the (x)\nin prochat to kill prochat</font>')
+    return print("please press (x) to quit prochat")
+end
+
+
+local classicuser = game:GetService("Players").LocalPlayer.Name
+local classicdisplay = game:GetService("Players").LocalPlayer.DisplayName
 
 --// make special chat changer gui thing
 local prochat = Instance.new("ScreenGui")
@@ -64,6 +133,8 @@ local OpenConfig = Instance.new("ImageButton")
 local round_8 = Instance.new("UICorner")
 local CopyFavoriteColor = Instance.new("ImageButton")
 local round_9 = Instance.new("UICorner")
+local DestroyProchat = Instance.new("ImageButton")
+local addon_round = Instance.new("UICorner")
 local CopiedNotif = Instance.new("TextLabel")
 
 prochat.Name = "prochat"
@@ -283,7 +354,7 @@ ChatAllBox.BackgroundTransparency = 1.000
 ChatAllBox.Size = UDim2.new(1, 0, 1, 0)
 ChatAllBox.ZIndex = 2
 ChatAllBox.Font = Enum.Font.Gotham
-ChatAllBox.PlaceholderText = "Chat all text [press enter to chat all]"
+ChatAllBox.PlaceholderText = "Chat all text (press enter)"
 ChatAllBox.ShowNativeInput = false
 ChatAllBox.Text = ""
 ChatAllBox.TextColor3 = theme.text
@@ -338,6 +409,19 @@ CopyFavoriteColor.ImageRectSize = Vector2.new(36, 36)
 round_9.Name = "round"
 round_9.Parent = CopyFavoriteColor
 
+DestroyProchat.Name = "DestroyProchat"
+DestroyProchat.Parent = BottomButtonConfig
+DestroyProchat.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+DestroyProchat.BackgroundTransparency = 0.500
+DestroyProchat.Size = UDim2.new(0, 30, 0, 30)
+DestroyProchat.ZIndex = 2
+DestroyProchat.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_5.png"
+DestroyProchat.ImageRectOffset = Vector2.new(228, 340)
+DestroyProchat.ImageRectSize = Vector2.new(36, 36)
+
+addon_round.Name = "addon_round"
+addon_round.Parent = DestroyProchat
+
 CopiedNotif.Name = "CopiedNotif"
 CopiedNotif.Parent = BottomButtonConfig
 CopiedNotif.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -377,6 +461,26 @@ local SetFavoriteColor = Instance.new("TextBox")
 local round_17 = Instance.new("UICorner")
 local FavoriteColorLabel = Instance.new("TextLabel")
 local pad_5 = Instance.new("UIPadding")
+local Devide_4 = Instance.new("Frame")
+local ManualOverride = Instance.new("Frame")
+local round_19 = Instance.new("UICorner")
+local EnableManualOverride = Instance.new("TextButton")
+local round_20 = Instance.new("UICorner")
+local list_7 = Instance.new("UIListLayout")
+local ManualLabel = Instance.new("TextLabel")
+local pad_6 = Instance.new("UIPadding")
+local ManualDisplayPick = Instance.new("Frame")
+local round_21 = Instance.new("UICorner")
+local ManualDisplayStart = Instance.new("TextBox")
+local constraint_2 = Instance.new("UITextSizeConstraint")
+local ManualDisplayEnd = Instance.new("TextBox")
+local constraint_3 = Instance.new("UITextSizeConstraint")
+local ManualChatPick = Instance.new("Frame")
+local round_22 = Instance.new("UICorner")
+local ManualChatEnd = Instance.new("TextBox")
+local constraint_4 = Instance.new("UITextSizeConstraint")
+local ManualChatStart = Instance.new("TextBox")
+local constraint_5 = Instance.new("UITextSizeConstraint")
 
 ConfigWindow.Name = "Transparent"
 ConfigWindow.Parent = bg
@@ -391,7 +495,7 @@ bg2.Parent = ConfigWindow
 bg2.BackgroundColor3 = theme.bg2
 bg2.BackgroundTransparency = 0.250
 bg2.Position = UDim2.new(0, 0, 1, 0)
-bg2.Size = UDim2.new(1, 0, 0, 146)
+bg2.Size = UDim2.new(1, 0, 0, 296)
 bg2.ZIndex = -1
 
 list_4.Name = "list"
@@ -541,6 +645,164 @@ pad_5.Name = "pad"
 pad_5.Parent = FavoriteColorLabel
 pad_5.PaddingLeft = UDim.new(0, 5)
 
+--// manual override time *uhg*
+Devide_4.Name = "Devide"
+Devide_4.Parent = bg2
+Devide_4.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Devide_4.BackgroundTransparency = 0.350
+Devide_4.BorderSizePixel = 0
+Devide_4.Size = UDim2.new(1, -30, 0, 1)
+
+ManualOverride.Name = "ManualOverride"
+ManualOverride.Parent = bg2
+ManualOverride.BackgroundColor3 = theme.bg2
+ManualOverride.BackgroundTransparency = 0.500
+ManualOverride.BorderColor3 = Color3.fromRGB(27, 42, 53)
+ManualOverride.Size = UDim2.new(1, -16, 0, 36)
+
+round_19.Name = "round"
+round_19.Parent = ManualOverride
+
+EnableManualOverride.Name = "NotTransparent"
+EnableManualOverride.Parent = ManualOverride
+EnableManualOverride.BackgroundColor3 = theme.toggle
+EnableManualOverride.BackgroundTransparency = 0.500
+EnableManualOverride.Size = UDim2.new(0, 26, 0, 26)
+EnableManualOverride.ZIndex = 2
+EnableManualOverride.Font = Enum.Font.Ubuntu
+EnableManualOverride.Text = ""
+EnableManualOverride.TextColor3 = Color3.fromRGB(255, 255, 255)
+EnableManualOverride.TextSize = 14.000
+
+round_20.Name = "round"
+round_20.Parent = EnableManualOverride
+
+list_7.Name = "list"
+list_7.Parent = ManualOverride
+list_7.FillDirection = Enum.FillDirection.Horizontal
+list_7.HorizontalAlignment = Enum.HorizontalAlignment.Center
+list_7.SortOrder = Enum.SortOrder.LayoutOrder
+list_7.VerticalAlignment = Enum.VerticalAlignment.Center
+list_7.Padding = UDim.new(0, 5)
+
+ManualLabel.Name = "ManualLabel"
+ManualLabel.Parent = ManualOverride
+ManualLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ManualLabel.BackgroundTransparency = 1.000
+ManualLabel.Size = UDim2.new(1, -40, 1, 0)
+ManualLabel.ZIndex = 2
+ManualLabel.Font = Enum.Font.Gotham
+ManualLabel.Text = "Manual override"
+ManualLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+ManualLabel.TextSize = 14.000
+ManualLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+pad_6.Name = "pad"
+pad_6.Parent = ManualLabel
+pad_6.PaddingLeft = UDim.new(0, 5)
+
+ManualDisplayPick.Name = "ManualDisplayPick"
+ManualDisplayPick.Parent = bg2
+ManualDisplayPick.BackgroundColor3 = theme.bg2
+ManualDisplayPick.BackgroundTransparency = 0.500
+ManualDisplayPick.BorderColor3 = Color3.fromRGB(27, 42, 53)
+ManualDisplayPick.Size = UDim2.new(1, -16, 0, 36)
+
+round_21.Name = "round"
+round_21.Parent = ManualDisplayPick
+
+ManualDisplayStart.Name = "ManualDisplayStart"
+ManualDisplayStart.Parent = ManualDisplayPick
+ManualDisplayStart.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ManualDisplayStart.BackgroundTransparency = 1.000
+ManualDisplayStart.Size = UDim2.new(1, -80, 1, 0)
+ManualDisplayStart.ZIndex = 2
+ManualDisplayStart.Font = Enum.Font.Gotham
+ManualDisplayStart.PlaceholderText = "Display start"
+ManualDisplayStart.ShowNativeInput = false
+ManualDisplayStart.Text = ""
+ManualDisplayStart.TextColor3 = Color3.fromRGB(255, 255, 255)
+ManualDisplayStart.TextSize = 10.000
+ManualDisplayStart.ClearTextOnFocus = false
+ManualDisplayStart.TextScaled = true
+ManualDisplayStart.TextWrapped = true
+
+constraint_2.Name = "constraint"
+constraint_2.Parent = ManualDisplayStart
+constraint_2.MaxTextSize = 12
+
+ManualDisplayEnd.Name = "ManualDisplayEnd"
+ManualDisplayEnd.Parent = ManualDisplayPick
+ManualDisplayEnd.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ManualDisplayEnd.BackgroundTransparency = 1.000
+ManualDisplayEnd.Position = UDim2.new(0, 130, 0, 0)
+ManualDisplayEnd.Size = UDim2.new(1, -130, 1, 0)
+ManualDisplayEnd.ZIndex = 2
+ManualDisplayEnd.Font = Enum.Font.Gotham
+ManualDisplayEnd.PlaceholderText = "Display end"
+ManualDisplayEnd.ShowNativeInput = false
+ManualDisplayEnd.Text = ""
+ManualDisplayEnd.TextColor3 = Color3.fromRGB(255, 255, 255)
+ManualDisplayEnd.TextSize = 10.000
+ManualDisplayEnd.ClearTextOnFocus = false
+ManualDisplayEnd.TextScaled = true
+ManualDisplayEnd.TextWrapped = true
+
+constraint_3.Name = "constraint"
+constraint_3.Parent = ManualDisplayEnd
+constraint_3.MaxTextSize = 12
+
+ManualChatPick.Name = "ManualChatPick"
+ManualChatPick.Parent = bg2
+ManualChatPick.BackgroundColor3 = theme.bg2
+ManualChatPick.BackgroundTransparency = 0.500
+ManualChatPick.BorderColor3 = Color3.fromRGB(27, 42, 53)
+ManualChatPick.Size = UDim2.new(1, -16, 0, 36)
+
+round_22.Name = "round"
+round_22.Parent = ManualChatPick
+
+ManualChatEnd.Name = "ManualChatEnd"
+ManualChatEnd.Parent = ManualChatPick
+ManualChatEnd.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ManualChatEnd.BackgroundTransparency = 1.000
+ManualChatEnd.Position = UDim2.new(0, 130, 0, 0)
+ManualChatEnd.Size = UDim2.new(1, -130, 1, 0)
+ManualChatEnd.ZIndex = 2
+ManualChatEnd.Font = Enum.Font.Gotham
+ManualChatEnd.PlaceholderText = "Chat end"
+ManualChatEnd.ShowNativeInput = false
+ManualChatEnd.Text = ""
+ManualChatEnd.TextColor3 = Color3.fromRGB(255, 255, 255)
+ManualChatEnd.TextSize = 10.000
+ManualChatEnd.ClearTextOnFocus = false
+ManualChatEnd.TextScaled = true
+ManualChatEnd.TextWrapped = true
+
+constraint_4.Name = "constraint"
+constraint_4.Parent = ManualChatEnd
+constraint_4.MaxTextSize = 12
+
+ManualChatStart.Name = "ManualChatStart"
+ManualChatStart.Parent = ManualChatPick
+ManualChatStart.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ManualChatStart.BackgroundTransparency = 1.000
+ManualChatStart.Size = UDim2.new(1, -80, 1, 0)
+ManualChatStart.ZIndex = 2
+ManualChatStart.Font = Enum.Font.Gotham
+ManualChatStart.PlaceholderText = "Chat start"
+ManualChatStart.ShowNativeInput = false
+ManualChatStart.Text = ""
+ManualChatStart.TextColor3 = Color3.fromRGB(255, 255, 255)
+ManualChatStart.TextSize = 10.000
+ManualChatStart.ClearTextOnFocus = false
+ManualChatStart.TextScaled = true
+ManualChatStart.TextWrapped = true
+
+constraint_5.Name = "constraint"
+constraint_5.Parent = ManualChatStart
+constraint_5.MaxTextSize = 12
+
 --// username predict function 
 local ChatColors = {
 	"FB2943",
@@ -612,23 +874,34 @@ local function setalltransparency(obj, btransparency, ttransparency, itransparen
 end
 
 --// simple defualt config maker
-if not isfile("defualt_proconfig.lua") then
-    writefile("defualt_proconfig.lua", [[
-local chatconfig = {
-    DisplayName = '',
-    CustomRTDisplayFuncs = 'face="Gotham" size="14" color="#8f4dff"',
-    CustomSpoofNameFuncs = 'font="Gotham" size="14"',
-    SpoofNameColor = '',
-    CustomRTChatFuncs = 'face="Gotham" size="14" color="#ffffff"',
-    FavoriteColor = '#ffd700'
-}
+if not isfolder("prochat") then
+    makefolder("prochat")
+    if not isfile("prochat/defualt_proconfig.lua") then
+        writefile("prochat/defualt_proconfig.lua", [[
+    local chatconfig = {
+        DisplayName = ']]..game:GetService("Players").LocalPlayer.DisplayName..[[',
+        CustomRTDisplayFuncs = 'face="Gotham" size="14" color="#8f4dff"',
+        CustomSpoofNameFuncs = 'font="Gotham" size="14"',
+        SpoofNameColor = '',
+        CustomRTChatFuncs = 'face="Gotham" size="14" color="#ffffff"',
+        FavoriteColor = '#ffd700',
 
-return chatconfig
-    ]])
+        manualenabled = '',
+
+        manualdisplaystart = '<font face="Gotham" size="14" color="#8f4dff">',
+        manualdisplayend = '</font>',
+
+        manualchatstart = '<font face="Gotham" size="14" color="#ffffff">',
+        manualchatend = '</font>'
+    }
+    
+    return chatconfig
+        ]])
+    end
 end
 
 local function loadconfig(configname)
-    chatconfig = loadfile(configname.."_proconfig.lua")()
+    chatconfig = loadfile("prochat/"..configname.."_proconfig.lua")()
     NameBox.Text = chatconfig.DisplayName
     RTDisplayNameBox.Text = chatconfig.CustomRTDisplayFuncs
     SpoofNameBox.Text = chatconfig.CustomSpoofNameFuncs
@@ -636,6 +909,11 @@ local function loadconfig(configname)
     CustomRichChatBox.Text = chatconfig.CustomRTChatFuncs
     CopyFavoriteColor.ImageColor3 = Color3.fromHex(chatconfig.FavoriteColor)
     SetFavoriteColor.TextColor3 = Color3.fromHex(chatconfig.FavoriteColor)
+    EnableManualOverride.Text = chatconfig.manualenabled
+    ManualDisplayStart.Text = chatconfig.manualdisplaystart
+    ManualDisplayEnd.Text = chatconfig.manualdisplayend
+    ManualChatStart.Text = chatconfig.manualchatstart
+    ManualChatEnd.Text = chatconfig.manualchatend
 
     if EnableSpoofNameColor.Text == "" then
         RTDisplayNameBox.Visible = true
@@ -688,7 +966,6 @@ game:GetService("RunService").Heartbeat:Connect(function()
 end)
 
 local function send()
-    game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync('<font '..CustomRichChatBox.Text..'>'..chatbar.TextContainer.TextBox.Text..'</font>')
     wait()
     chatbar.TextContainer.TextBox.Text = ""
     setalltransparency(prochat, 1, 1, 1)
@@ -699,7 +976,13 @@ end
 --// send special message using send btn
 specialsend.MouseButton1Click:Connect(function()
     if EnableSpoofNameColor.Text == "" then
-        game:GetService("Players").LocalPlayer.DisplayName = '<font '..RTDisplayNameBox.Text..'>'..NameBox.Text..'</font>'
+        if EnableManualOverride.Text == "X" then
+            game:GetService("Players").LocalPlayer.DisplayName = ManualDisplayStart.Text..NameBox.Text..ManualDisplayEnd.Text
+            game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync(ManualChatStart.Text..chatbar.TextContainer.TextBox.Text..ManualChatEnd.Text)    
+        else
+            game:GetService("Players").LocalPlayer.DisplayName = '<font '..RTDisplayNameBox.Text..'>'..NameBox.Text..'</font>'
+            game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync('<font '..CustomRichChatBox.Text..'>'..chatbar.TextContainer.TextBox.Text..'</font>')    
+        end
         send()
     elseif EnableSpoofNameColor.Text == "X" then
         if game:GetService("Players"):FindFirstChild(NameBox.Text) then
@@ -707,6 +990,8 @@ specialsend.MouseButton1Click:Connect(function()
         else
             game:GetService("Players").LocalPlayer.DisplayName = '<font color="#'..ChatColors[getChatColorsIndex(NameBox.Text)]..'" '..SpoofNameBox.Text..'>'..NameBox.Text..'</font>'
         end
+        game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync('<font '..CustomRichChatBox.Text..'>'..chatbar.TextContainer.TextBox.Text..'</font>')
+
         send()
     end
 end)
@@ -737,12 +1022,23 @@ end)
 EnableSpoofNameColor.MouseButton1Click:Connect(function()
     if EnableSpoofNameColor.Text == "" then
         EnableSpoofNameColor.Text = "X"
+        EnableManualOverride.Text = ""
         RTDisplayNameBox.Visible = false
         SpoofNameBox.Visible = true
     elseif EnableSpoofNameColor.Text == "X" then
         EnableSpoofNameColor.Text = ""
         RTDisplayNameBox.Visible = true
         SpoofNameBox.Visible = false
+    end
+end)
+
+--// toggle manual override
+EnableManualOverride.MouseButton1Click:Connect(function()
+    if EnableManualOverride.Text == "" then
+        EnableManualOverride.Text = "X"
+        EnableSpoofNameColor.Text = ""
+    elseif EnableManualOverride.Text == "X" then
+        EnableManualOverride.Text = ""
     end
 end)
 
@@ -780,7 +1076,7 @@ end)
 
 --// copy config color
 CopyFavoriteColor.MouseButton1Click:Connect(function()
-    setclipboard(tostring(chatconfig.FavoriteColor))
+    setclipboard(tostring(CopyFavoriteColor.ImageColor3:ToHex()))
     CopiedNotif.Visible = true
     CopiedNotif:TweenSize(UDim2.new(1, -150, 0, 26),"In","Quint",.5)
     wait(1)
@@ -788,16 +1084,34 @@ CopyFavoriteColor.MouseButton1Click:Connect(function()
     CopiedNotif.Visible = false
 end)
 
+DestroyProchat.MouseButton1Click:Connect(function()
+    chatbar.SendButton.Visible = true
+    chatbar.TextContainer.Size = UDim2.new(1, -30, 0, 0)
+    specialsend:Destroy()
+    specialedit:Destroy()
+    prochat:Destroy()
+
+    game:GetService("Players").LocalPlayer.DisplayName = classicdisplay
+end)
+
 --// scripting config gui
 SaveConfig.MouseButton1Click:Connect(function()
-    writefile(ConfigName.Text.."_proconfig.lua", [[
+    writefile("prochat/"..ConfigName.Text.."_proconfig.lua", [[
 local chatconfig = {
     DisplayName = ']]..NameBox.Text..[[',
     CustomRTDisplayFuncs = ']]..RTDisplayNameBox.Text..[[',
     CustomSpoofNameFuncs = ']]..SpoofNameBox.Text..[[',
     SpoofNameColor = ']]..EnableSpoofNameColor.Text..[[',
     CustomRTChatFuncs = ']]..CustomRichChatBox.Text..[[',
-    FavoriteColor = ']]..SetFavoriteColor.Text..[['
+    FavoriteColor = ']]..SetFavoriteColor.Text..[[',
+
+    manualenabled = ']]..EnableManualOverride.Text..[[',
+
+    manualdisplaystart = ']]..ManualDisplayStart.Text..[[',
+    manualdisplayend = ']]..ManualDisplayEnd.Text..[[',
+
+    manualchatstart = ']]..ManualChatStart.Text..[[',
+    manualchatend = ']]..ManualChatEnd.Text..[['
 }
 
 return chatconfig
@@ -809,7 +1123,7 @@ LoadConfig.MouseButton1Click:Connect(function()
 end)
 
 DeleteConfig.MouseButton1Click:Connect(function()
-    delfile(ConfigName.Text.."_proconfig.lua")
+    delfile("prochat/"..ConfigName.Text.."_proconfig.lua")
 end)
 
 --// favorite color setter
@@ -819,6 +1133,3 @@ SetFavoriteColor.FocusLost:connect(function(enterPressed)
         CopyFavoriteColor.ImageColor3 = Color3.fromHex(SetFavoriteColor.Text)
     end
 end)
-
--- face="Gotham" size="14" color="#fc30fc">s</font><font color="#bd30fc">p</font><font color="#8f4dff">e</font><font color="#5730fc"
--- face="Gotham" size="14" color="#000000"
