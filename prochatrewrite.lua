@@ -2,7 +2,7 @@
 
     // PRO-CHAT, by spec
     
-    version: 0.2b *small  rewrite*
+    version: 0.2c *small  rewrite*
     
     - Description: A simple script that adds a extra button
     to your chat coregui and makes your messages cooler.
