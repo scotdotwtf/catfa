@@ -1,4 +1,4 @@
-local ver = "0.0a"
+local ver = "0.0b"
 --[[
 
     // catfa.lua, by spec
@@ -681,7 +681,7 @@ hexbox:Round(6)
 
 --// chatbar
 local chatroot = game:GetService("CoreGui").ExperienceChat
-local chatbar = chatroot.container.chatInputBar.Background:WaitForChild("Container")
+local chatbar = chatroot.appLayout.chatInputBar.Background:WaitForChild("Container")
 
 --// hide/change core elements we will mess with
 chatbar.SendButton.Visible = false
@@ -712,8 +712,8 @@ specialedit.ImageColor3 = Color3.fromRGB(125, 125, 125)
 specialedit.Parent = chatbar
 
 game:GetService("RunService").Heartbeat:Connect(function()
-    specialsend.ImageTransparency = chatroot.container.chatInputBar.Background.BackgroundTransparency
-    specialedit.ImageTransparency = chatroot.container.chatInputBar.Background.BackgroundTransparency
+    specialsend.ImageTransparency = chatroot.appLayout.chatInputBar.Background.BackgroundTransparency
+    specialedit.ImageTransparency = chatroot.appLayout.chatInputBar.Background.BackgroundTransparency
 end)
 
 --// open/close
