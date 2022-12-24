@@ -3,8 +3,7 @@
 
 ### Showcases
 #### Video showcase of beta
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qk4cyhFAvYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Video showcase of beta](https://img.youtube.com/vi/qk4cyhFAvYM)](https://www.youtube.com/watch?v=qk4cyhFAvYM)
 
 #### Beta UI showcase with themes
 ![Beta UI showcase with themes](https://raw.githubusercontent.com/specowos/catfa/main/Catfa%20Showcases/BetaUIShowcase1.png)
