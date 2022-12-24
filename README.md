@@ -3,7 +3,7 @@
 
 ### Showcases
 #### Video showcase of beta
-[![Video showcase of beta](https://img.youtube.com/vi/qk4cyhFAvYM/0.jpeg)](https://www.youtube.com/watch?v=qk4cyhFAvYM)
+![Video showcase of beta](https://img.youtube.com/vi/qk4cyhFAvYM/0.jpeg)](https://www.youtube.com/watch?v=qk4cyhFAvYM)
 
 #### Beta UI showcase with themes
 ![Beta UI showcase with themes](https://raw.githubusercontent.com/specowos/catfa/main/Catfa%20Showcases/BetaUIShowcase1.png)
