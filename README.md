@@ -3,6 +3,7 @@
 
 ### Showcases
 #### Video showcase of beta
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qk4cyhFAvYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 #### Beta UI showcase with themes
