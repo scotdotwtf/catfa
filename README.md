@@ -8,5 +8,5 @@
 #### Beta UI showcase with themes
 ![Beta UI showcase with themes](https://raw.githubusercontent.com/specowos/catfa/main/Catfa%20Showcases/BetaUIShowcase1.png)
 
-#### Beta UI showcase with themes
+#### Beta UI showcase
 ![Beta UI showcase](https://raw.githubusercontent.com/specowos/catfa/main/Catfa%20Showcases/BetaUIShowcase2.png)
