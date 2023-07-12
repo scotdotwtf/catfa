@@ -36,7 +36,7 @@ local getasset = getsynasset or getcustomasset
 if not isfolder("catfa_assets") then
     makefolder("catfa_assets")
     if not isfile("catfa_assets/breaking.mp3") then
-        writefile("catfa_assets/breaking.mp3", game:HttpGet("https://gitfront.io/r/user-8844596/uap3j1qReAyv/catfa/raw/breakinggood.mp3"))
+        writefile("catfa_assets/breaking.mp3", game:HttpGet("https://github.com/scotdotwtf/catfa/raw/main/breakinggood.mp3"))
     end
 end
 
